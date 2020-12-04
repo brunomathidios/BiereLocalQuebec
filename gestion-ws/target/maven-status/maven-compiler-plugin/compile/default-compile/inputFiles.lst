@@ -1,1 +1,12 @@
-/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/Application.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/service/TypeBiereService.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/controleur/TypeBiereControleur.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/filter/BiereFilter.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/filter/TypeBiereFilter.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/repository/BiereRepository.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/config/WebSecurityConfig.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/GestionWsApplication.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/controleur/AmertumeControleur.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/repository/TypeBiereRepository.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/controleur/BiereControleur.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/service/BiereService.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/gestion-ws/src/main/java/com/ca/biere/local/quebec/gestion/ws/config/GestionWsConfig.java

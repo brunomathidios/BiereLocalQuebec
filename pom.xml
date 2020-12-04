@@ -26,8 +26,9 @@
 	</properties>
 	
 	<modules>
-		<module>client-ws</module>
+		<module>commons-ws</module>
 		<module>gestion-ws</module>
+		<module>client-ws</module>
 	</modules>
 
 	<dependencies>
