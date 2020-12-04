@@ -1,0 +1,124 @@
+<form class="ml-5">
+  <div class="form-group row">
+    <label for="inputNom" class="col-sm-2 col-form-label">Nom:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="inputNom" name="nom"
+        maxlength="200" [(ngModel)]="typeBiereFilter.nom">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputDescription" class="col-sm-2 col-form-label">Description:</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="inputDescription" name="description"
+        maxlength="200" [(ngModel)]="typeBiereFilter.description">
+    </div>
+  </div>
+</form>
+
+<div class="row mt-4 mb-4" style="margin-left: 275px;">
+  <button type="button" class="btn btn-primary" (click)="recherche()">
+    <span class="fa fa-search"></span> Recherche
+  </button>
+  <button type="button" class="btn btn-secondary ml-1" (click)="clearFilter()">
+    <span class="fa fa-eraser"></span> Effacer
+  </button>
+</div>
+
+<div class="row no-gutters" style="margin-bottom: 5px">
+  <div class="col-sm-4" style="text-align: left;">
+      <span class="statusResultado">
+        <label>{{ tableResume }}</label>
+      </span>
+  </div>
+  <div class="col-sm-8 text-right"
+    [ngClass]="{'btn-pr-0': typesBieres.content?.length == 0,
+                'btn-pr-15': typesBieres.content?.length > 0}">
+      <button type="button" class="btn btn-primary" 
+        (click)="allerToForm(ENUM_STATE_MODEL.AJOUTER)">
+        <span class="fa fa-plus"></span> Nouvelle type de bière
+      </button>
+  </div>
+</div>
+
+<table class="table table-hover table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th style="width:5%" class="text-center">#</th>
+      <th style="width:15%">
+        Nom
+        <i class="fa fa-angle-down icon-angle" 
+          (click)="sort('nom', 'desc')" *ngIf="typesBieres.content?.length > 0"></i>
+        <i class="fa fa-angle-up icon-angle" 
+          (click)="sort('nom', 'asc')" *ngIf="typesBieres.content?.length > 0"></i>
+      </th>
+      <th style="width:70%">
+        Description
+        <i class="fa fa-angle-down icon-angle-mr" 
+          (click)="sort('description', 'desc')" *ngIf="typesBieres.content?.length > 0"></i>
+        <i class="fa fa-angle-up icon-angle" 
+          (click)="sort('description', 'asc')" *ngIf="typesBieres.content?.length > 0"></i>
+      </th>
+      <th style="width:10%" class="text-center">Gérer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let typeBiere of typesBieres.content">
+      <th scope="row" class="text-center">{{typeBiere.idTypeBiere}}</th>
+      <td>{{typeBiere.nom}}</td>
+      <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">
+        {{typeBiere.description}}
+      </td>
+      <td class="text-center">
+        <a class="btn-column-gerer" title="Modifier"
+          (click)="allerToForm(ENUM_STATE_MODEL.MODIFIER, typeBiere.idTypeBiere)">
+          <i class="fa fa-edit fa-lg" aria-hidden="true"></i>
+        </a>
+        <a class="btn-column-gerer" title="Effacer"
+          (click)="effacer(typeBiere.idTypeBiere)">
+          <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </a>
+        <a class="btn-column-gerer" title="Visualiser"
+        (click)="allerToForm(ENUM_STATE_MODEL.VISUALISER, typeBiere.idTypeBiere)">
+          <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="row" 
+  *ngIf="typesBieres.content?.length > 0 && typesBieres.totalElements > 5">  
+  <div class="col-lg-8 col-md-10 ml-auto mr-auto">  
+    <gestion-pagination 
+      [totalRecords]="typesBieres.totalElements" 
+      [recordsPerPage]="pageable.pageSize" 
+      (onPageChange)="displayActivePage($event)">
+    </gestion-pagination>    
+  </div>  
+</div>
+
+<div class="row" 
+  *ngIf="typesBieres.content?.length == 0">
+  <div class="col-lg-8 col-md-10 ml-auto mr-auto text-center">
+    <label>Aucun résultat de recherche n'a été trouvé.</label>
+  </div>
+</div>
+
+<ng-template #modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Type de bière</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <span>Voulez-vous supprimer l'enregistrement sélectionné?</span>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" 
+      (click)="supprimer()">Oui</button>
+      <button type="button" class="btn btn-outline-dark" 
+      (click)="close()">Non</button>
+  </div>
+</ng-template>

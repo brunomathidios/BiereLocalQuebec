@@ -1,0 +1,48 @@
+<form style="width: 70%;" class="ml-5">
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputNom">Nom:</label>
+        <input type="text" class="form-control" id="inputNom" maxlength="150">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputTypeBiere">Type de bière:</label>
+        <select id="inputTypeBiere" class="form-control">
+            <option selected>Choose...</option>
+            <option>...</option>
+          </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="inputTauxAlcool">Taux d'alcool:</label>
+            <input type="text" class="form-control" id="inputTauxAlcool"
+                mask="999.99" placeholder="0.00%">
+          </div>
+        <div class="form-group col-md-4">
+          <label for="inputOrigine">Origine:</label>
+          <input type="text" class="form-control" id="inputOrigine">
+        </div>
+        <div class="form-group col-md-1">
+          <label for="inputIbu">IBU:</label>
+          <input type="text" class="form-control" id="inputIbu"
+            mask="999">
+        </div>
+        <div class="form-group col-md-5">
+          <label for="inputAmertume">Amertume:</label>
+          <select id="inputAmertume" class="form-control" name="amertume" ngModel>
+            <option value=''>{{"Sélectionner"}}</option>
+            <option *ngFor="let amertume of amertumeList" [ngValue]="amertume.key">
+              {{amertume.value}}
+            </option>
+          </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputDescription">Description:</label>
+      <input type="text" class="form-control" id="inputDescription" maxlength="200">
+    </div>
+    
+  </form>

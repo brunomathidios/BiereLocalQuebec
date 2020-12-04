@@ -1,0 +1,23 @@
+<header class="mb-5">
+    <div class="card-header" style="padding: 0 0.25rem !important;">
+        <ul class="nav nav-pills card-header-pills" routerLinkActive="active">
+          <li class="nav-item" style="cursor: pointer;">
+            <a class="nav-link" (click)="preparerTypeBiere()" 
+              [ngClass]="typeBiere ? 'active' :''">Types de Bières</a>
+          </li>
+          <li class="nav-item" style="cursor: pointer;">
+            <a class="nav-link" (click)="preparerBiere()"
+            [ngClass]="biere ? 'active' :''">Bières</a>
+          </li>
+          <li class="nav-item" style="cursor: pointer;">
+            <a class="nav-link" (click)="preparerBoxBiere()">Box de Bières</a>
+          </li>
+          <li class="nav-item" style="cursor: pointer;">
+            <a class="nav-link" (click)="preparerRapports()">Rapports</a>
+          </li>
+        </ul>
+      </div>
+      <div class="fixed-top">
+        <gestion-alert></gestion-alert>
+    </div>
+</header>

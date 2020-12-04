@@ -1,0 +1,41 @@
+html {
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+table {
+    table-layout:fixed;
+}
+
+.icon-angle {
+    font-size: 24px !important;
+    color: white;
+    float: right;
+    cursor: pointer;
+}
+
+.icon-angle-mr {
+    font-size: 24px !important;
+    color: white;
+    float: right;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.btn-pr-0 {
+    text-align: right;
+}
+
+.btn-pr-15 {
+    text-align: right;
+    padding-right: 15px !important;
+}
+
+.btn-column-gerer {
+    cursor: pointer;
+    padding-right: 5px;
+}

@@ -1,0 +1,38 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /gestion-ws
+
+application:
+  domain: /bieres
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  datasource:
+    platform: test
+    driver-class-name: org.h2.Driver
+    password: sa
+    url: jdbc:h2:mem:testdb
+    username: sa
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+    
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type: TRACE
+    springframework:
+      jdbc:
+        datasource:
+          init:
+            ScriptUtils: DEBUG
+

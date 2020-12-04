@@ -1,0 +1,24 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /gestion-ws
+
+application:
+  domain: /bieres
+    
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://ec2-54-166-114-48.compute-1.amazonaws.com:5432/d8e1napvaujusp?sslmode=require
+    username: yikrakwuqlgkvc
+    password: 5e7c5106b5a6d537da871fe0af2a491fa0678ff510e20bf0acc5d5d1d2041691
+    driver-class-name: org.postgresql.Driver
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+
+
