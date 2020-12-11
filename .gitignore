@@ -4,3 +4,5 @@
 /gestion-front/.editorconfig
 /commons-ws/.factorypath
 /commons-ws/.project
+/gestion-ws/target/
+/commons-ws/target/
