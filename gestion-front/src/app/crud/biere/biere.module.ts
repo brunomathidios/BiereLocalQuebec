@@ -10,10 +10,12 @@ import { PaginationModule } from "src/app/core/pagination/pagination.module";
 import { BiereRoutingModule } from "./biere-routing.module";
 import { SearchBiereComponent } from "./search/search-biere.component";
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { CreateBiereComponent } from "./enregistrement/create-biere.component";
 
 @NgModule({
     declarations: [
-        SearchBiereComponent
+        SearchBiereComponent,
+        CreateBiereComponent
     ],
     imports: [
         CommonModule,
@@ -29,7 +31,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
         NgxMaskModule.forRoot()
     ],
     exports: [
-        SearchBiereComponent
+        SearchBiereComponent,
+        CreateBiereComponent
     ]
 })
 export class BiereModule {

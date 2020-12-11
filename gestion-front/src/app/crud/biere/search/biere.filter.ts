@@ -1,10 +1,12 @@
 export class BiereFilter {
 
     nom: string;
-    typeBiere: number;
-    tauxAlcool: number;
+    idTypeBiere: number;
+    tauxAlcoolStart: string;
+    tauxAlcoolEnd: string;
     origine: string;
-    ibu: number;
+    ibuStart: number;
+    ibuEnd: number;
     amertume: string;
     description: string;
 }

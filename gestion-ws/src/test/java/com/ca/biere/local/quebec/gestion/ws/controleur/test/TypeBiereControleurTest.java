@@ -47,7 +47,6 @@ public class TypeBiereControleurTest extends ControleurBaseTest {
 
 	@Test
 	public void lister() throws Exception {
-		
 		this.mockMvc
 			.perform(MockMvcRequestBuilders.get(this.uriControleur)
 			.param("page", "0")
@@ -365,6 +364,19 @@ public class TypeBiereControleurTest extends ControleurBaseTest {
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages[0]", Matchers.equalTo(erreurMessage)));
+	}
+
+	@Test
+	public void listerTypeBiereByNomDoitRetourner3Enregistrements() throws Exception {
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.get(this.uriControleur + "/lister")
+						.param("nom", "ipa")
+						.header("Content-Type", this.contentType))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.data").isNotEmpty())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.data", Matchers.hasSize(3)));
 	}
 	
 	@After

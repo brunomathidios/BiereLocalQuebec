@@ -6,7 +6,7 @@ public enum EnumConstraintViolation {
 	
 	NOM_TYPE_BIERE_UNIQUE("nom_type_biere_unique", "Nom du type de bière déjà existe."),
 	NOM_BIERE_UNIQUE("nom_biere_unique", "Nom de la bière déjà existe."),
-	NOM_BOX_BIERE_UNIQUE("", "");
+	PRIX_BIERE_UNIQUE("prix_biere_unique", "Prix déjà existe pour la bière sélectionnée.");
 	
 	private String nomConstraint;
 	private String message;

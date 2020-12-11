@@ -53,3 +53,37 @@ values (nextval('biere_id_seq'), 'The best Blonde', 'Canada', 4.5, 25, 'FAIBLE',
 
 insert into biere (id_biere, nom, origine, taux_alcool, ibu, amertume, description, id_type_biere, date_creation, date_mis_a_jour)
 values (nextval('biere_id_seq'), 'The best Blanche', 'Canada', 4.5, 30, 'FAIBLE', 'description blanche', 6, current_timestamp, current_timestamp);
+
+--prix
+insert into prix_biere (id_prix_biere, prix, id_biere, date_creation, date_mis_a_jour)
+values (nextval('prix_biere_id_seq'), 'Médaille dor 2019', 1, current_timestamp, current_timestamp);
+
+insert into prix_biere (id_prix_biere, prix, id_biere, date_creation, date_mis_a_jour)
+values (nextval('prix_biere_id_seq'), 'Médaille dor 2018', 1, current_timestamp, current_timestamp);
+
+insert into prix_biere (id_prix_biere, prix, id_biere, date_creation, date_mis_a_jour)
+values (nextval('prix_biere_id_seq'), 'Médaille dor 2017', 1, current_timestamp, current_timestamp);
+
+insert into prix_biere (id_prix_biere, prix, id_biere, date_creation, date_mis_a_jour)
+values (nextval('prix_biere_id_seq'), 'Médaille dargent 2019', 2, current_timestamp, current_timestamp);
+
+insert into prix_biere (id_prix_biere, prix, id_biere, date_creation, date_mis_a_jour)
+values (nextval('prix_biere_id_seq'), 'Médaille dargent 2018', 2, current_timestamp, current_timestamp);
+
+insert into prix_biere (id_prix_biere, prix, id_biere, date_creation, date_mis_a_jour)
+values (nextval('prix_biere_id_seq'), 'Médaille dargent 2017', 2, current_timestamp, current_timestamp);
+
+insert into prix_biere (id_prix_biere, prix, id_biere, date_creation, date_mis_a_jour)
+values (nextval('prix_biere_id_seq'), 'Médaille de bronze 2019', 3, current_timestamp, current_timestamp);
+
+insert into prix_biere (id_prix_biere, prix, id_biere, date_creation, date_mis_a_jour)
+values (nextval('prix_biere_id_seq'), 'Médaille de bronze 2018', 3, current_timestamp, current_timestamp);
+
+insert into prix_biere (id_prix_biere, prix, id_biere, date_creation, date_mis_a_jour)
+values (nextval('prix_biere_id_seq'), 'Médaille de bronze 2017', 3, current_timestamp, current_timestamp);
+
+insert into prix_biere (id_prix_biere, prix, id_biere, date_creation, date_mis_a_jour)
+values (nextval('prix_biere_id_seq'), 'World beer awards', 4, current_timestamp, current_timestamp);
+
+insert into prix_biere (id_prix_biere, prix, id_biere, date_creation, date_mis_a_jour)
+values (nextval('prix_biere_id_seq'), 'Best beer du Brésil', 5, current_timestamp, current_timestamp);

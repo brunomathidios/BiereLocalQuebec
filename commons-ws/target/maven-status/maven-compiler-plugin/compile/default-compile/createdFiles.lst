@@ -1,7 +1,6 @@
 com/ca/biere/local/quebec/commons/ws/enums/EnumConstraintViolation.class
 com/ca/biere/local/quebec/commons/ws/config/RestExceptionHandler.class
 com/ca/biere/local/quebec/commons/ws/entite/BoxBiere.class
-com/ca/biere/local/quebec/commons/ws/entite/RecompenseBiere.class
 com/ca/biere/local/quebec/commons/ws/dto/AmertumeDTO.class
 com/ca/biere/local/quebec/commons/ws/utils/JsonUtils.class
 com/ca/biere/local/quebec/commons/ws/exception/ValidationException.class
@@ -14,6 +13,7 @@ com/ca/biere/local/quebec/commons/ws/dto/DTOEnum.class
 com/ca/biere/local/quebec/commons/ws/config/CommonsConfig$1.class
 com/ca/biere/local/quebec/commons/ws/entite/TypeBiere.class
 com/ca/biere/local/quebec/commons/ws/enums/EnumAmertume.class
+com/ca/biere/local/quebec/commons/ws/entite/PrixBiere.class
 com/ca/biere/local/quebec/commons/ws/pojo/Response.class
 com/ca/biere/local/quebec/commons/ws/service/BaseEntiteService.class
 com/ca/biere/local/quebec/commons/ws/pojo/Response$Builder.class

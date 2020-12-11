@@ -1,48 +1,197 @@
 <form style="width: 70%;" class="ml-5">
 
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="inputNom">Nom:</label>
-        <input type="text" class="form-control" id="inputNom" maxlength="150">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="inputTypeBiere">Type de bière:</label>
-        <select id="inputTypeBiere" class="form-control">
-            <option selected>Choose...</option>
-            <option>...</option>
-          </select>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputNom">Nom:</label>
+      <input type="text" class="form-control" id="inputNom" maxlength="150" [(ngModel)]="filter.nom" name="nom">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputTypeBiere">Type de bière:</label>
+      <div>
+        <ng-autocomplete 
+          [data]="typeBiereList"
+          [searchKeyword]="keyword"
+          (selected)='selectEvent($event)'
+          (inputChanged)='onChangeSearch($event)'
+          [itemTemplate]="itemTemplate"
+          [notFoundTemplate]="notFoundTemplate"
+          [minQueryLength]="3">                                 
+        </ng-autocomplete>
+          
+        <ng-template #itemTemplate let-item>
+        <a [innerHTML]="item.nom"></a>
+        </ng-template>
+          
+        <ng-template #notFoundTemplate let-notFound>
+        <div [innerHTML]="notFound"></div>
+        </ng-template>
       </div>
     </div>
+  </div>
 
-    <div class="form-row">
-        <div class="form-group col-md-2">
-            <label for="inputTauxAlcool">Taux d'alcool:</label>
-            <input type="text" class="form-control" id="inputTauxAlcool"
-                mask="999.99" placeholder="0.00%">
-          </div>
-        <div class="form-group col-md-4">
-          <label for="inputOrigine">Origine:</label>
-          <input type="text" class="form-control" id="inputOrigine">
-        </div>
-        <div class="form-group col-md-1">
-          <label for="inputIbu">IBU:</label>
-          <input type="text" class="form-control" id="inputIbu"
-            mask="999">
-        </div>
-        <div class="form-group col-md-5">
-          <label for="inputAmertume">Amertume:</label>
-          <select id="inputAmertume" class="form-control" name="amertume" ngModel>
-            <option value=''>{{"Sélectionner"}}</option>
-            <option *ngFor="let amertume of amertumeList" [ngValue]="amertume.key">
-              {{amertume.value}}
-            </option>
-          </select>
-        </div>
+  <div class="form-row">
+      <div class="form-group col-md-2">
+        <label for="inputTauxAlcool">Taux d'alcool:</label>
+        <input type="text" class="form-control" id="inputTauxAlcool"
+          placeholder="format 0.00%" [(ngModel)]="filter.tauxAlcoolStart" name="tauxAlcool">
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputEntre">&nbsp;</label>
+        <p id="inputEntre" class="text-center" style="margin-top: 5px;">entre:</p>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputTauxAlcool2">&nbsp;</label>
+        <input type="text" class="form-control" id="inputTauxAlcool2" 
+          placeholder="format 0.00%" [(ngModel)]="filter.tauxAlcoolEnd" name="tauxAlcool2">
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputIbu">IBU:</label>
+        <input type="text" class="form-control" id="inputIbu" mask="999" [(ngModel)]="filter.ibuStart" name="ibu" placeholder="valeur initiale">
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputEntre">&nbsp;</label>
+        <p id="inputEntre" class="text-center" style="margin-top: 5px;">entre:</p>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputIbu2">&nbsp;</label>
+        <input type="text" class="form-control" id="inputIbu2" mask="999" [(ngModel)]="filter.ibuEnd" name="ibu2" placeholder="valeur finale">
+      </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputAmertume">Amertume:</label>
+      <select id="inputAmertume" class="form-control" name="amertume" [(ngModel)]="filter.amertume">
+        <option [ngValue]="null" [disabled]="true">Sélectionner</option>
+        <option *ngFor="let amertume of amertumeList" [ngValue]="amertume.key">
+          {{amertume.value}}
+        </option>
+      </select>
     </div>
-
-    <div class="form-group">
+    <div class="form-group col-md-4">
+      <label for="inputOrigine">Origine:</label>
+      <input type="text" class="form-control" id="inputOrigine" maxlength="50" [(ngModel)]="filter.origine" name="origine">
+    </div>
+    <div class="form-group col-md-4">
       <label for="inputDescription">Description:</label>
-      <input type="text" class="form-control" id="inputDescription" maxlength="200">
+      <input type="text" class="form-control" id="inputDescription" maxlength="200" [(ngModel)]="filter.description" name="description">
     </div>
+  </div>
     
-  </form>
+</form>
+
+<div class="row mt-4 mb-4" style="margin-left: 50px;">
+  <button type="button" class="btn btn-primary" (click)="recherche()">
+    <span class="fa fa-search"></span> Rechercher
+  </button>
+  <button type="button" class="btn btn-secondary ml-1" (click)="clearFilter()">
+    <span class="fa fa-eraser"></span> Effacer
+  </button>
+</div>
+
+<div class="row no-gutters" style="margin-bottom: 5px">
+  <div class="col-sm-4" style="text-align: left;">
+      <span class="statusResultado">
+        <label>{{ tableResume }}</label>
+      </span>
+  </div>
+  <div class="col-sm-8 text-right btn-pr-15">
+      <button type="button" class="btn btn-primary" (click)="allerToForm(ENUM_STATE_MODEL.AJOUTER)">
+        <span class="fa fa-plus"></span> Ajouter bière
+      </button>
+  </div>
+</div>
+
+<table class="table table-hover table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th style="width:5%" class="text-center">#</th>
+      <th style="width:35%">
+        Nom
+        <i class="fa fa-angle-down icon-angle" 
+          (click)="sort('nom', 'desc')" *ngIf="biereList.length > 0"></i>
+        <i class="fa fa-angle-up icon-angle" 
+          (click)="sort('nom', 'asc')" *ngIf="biereList.length > 0"></i>
+      </th>
+      <th style="width:20%">
+        Type de bière
+        <i class="fa fa-angle-down icon-angle-mr" 
+          (click)="sort('typeBiere.nom', 'desc')" *ngIf="biereList.length > 0"></i>
+        <i class="fa fa-angle-up icon-angle" 
+          (click)="sort('typeBiere.nom', 'asc')" *ngIf="biereList.length > 0"></i>
+      </th>
+      <th style="width:15%">
+        Taux d'alcool
+        <i class="fa fa-angle-down icon-angle-mr" 
+          (click)="sort('tauxAlcool', 'desc')" *ngIf="biereList.length > 0"></i>
+        <i class="fa fa-angle-up icon-angle" 
+          (click)="sort('tauxAlcool', 'asc')" *ngIf="biereList.length > 0"></i>
+      </th>
+      <th style="width:20%">
+        Amertume
+        <i class="fa fa-angle-down icon-angle-mr" 
+          (click)="sort('description', 'desc')" *ngIf="biereList.length > 0"></i>
+        <i class="fa fa-angle-up icon-angle" 
+          (click)="sort('description', 'asc')" *ngIf="biereList.length > 0"></i>
+      </th>
+      <th style="width:10%" class="text-center">Gérer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let biere of biereList">
+      <th scope="row" class="text-center">{{biere.idBiere}}</th>
+      <td>{{biere.nom}}</td>
+      <td>{{biere.typeBiere.nom}}</td>
+      <td>{{biere.tauxAlcool}}%</td>
+      <td>{{biere.amertumeText}}</td>
+      <td class="text-center">
+        <a class="btn-column-gerer" title="Modifier" (click)="allerToForm(ENUM_STATE_MODEL.MODIFIER, biere.idBiere)">
+          <i class="fa fa-edit fa-lg" aria-hidden="true"></i>
+        </a>
+        <a class="btn-column-gerer" title="Supprimer" (click)="effacer(biere.idBiere)">
+          <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </a>
+        <a class="btn-column-gerer" title="Visualiser" (click)="allerToForm(ENUM_STATE_MODEL.VISUALISER, biere.idBiere)">
+          <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="row" 
+  *ngIf="biereList.length > 0 && totalElements > 5">  
+  <div class="col-lg-8 col-md-10 ml-auto mr-auto">  
+    <gestion-pagination 
+      [totalRecords]="totalElements" 
+      [recordsPerPage]="pageable.pageSize" 
+      (onPageChange)="displayActivePage($event)">
+    </gestion-pagination>    
+  </div>  
+</div>
+
+<div class="row" 
+  *ngIf="biereList.length == 0">
+  <div class="col-lg-8 col-md-10 ml-auto mr-auto text-center">
+    <label>Aucun résultat de recherche n'a été trouvé.</label>
+  </div>
+</div>
+
+<ng-template #modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Bière</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <span>Voulez-vous supprimer l'enregistrement sélectionné?</span>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" 
+      (click)="supprimer()">Oui</button>
+      <button type="button" class="btn btn-outline-dark" 
+      (click)="close()">Non</button>
+  </div>
+</ng-template>

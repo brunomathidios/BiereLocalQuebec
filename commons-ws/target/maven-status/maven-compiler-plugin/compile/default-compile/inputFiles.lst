@@ -4,6 +4,7 @@
 /home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/dto/DTOEnum.java
 /home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/repository/base/BaseRepositoryImpl.java
 /home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/entite/BaseEntite.java
+/home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/entite/PrixBiere.java
 /home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/enums/EnumConstraintViolation.java
 /home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/exception/ResourceNotFoundException.java
 /home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/pojo/Response.java
@@ -15,6 +16,5 @@
 /home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/entite/Biere.java
 /home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/config/RestExceptionHandler.java
 /home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/dto/AmertumeDTO.java
-/home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/entite/RecompenseBiere.java
 /home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/enums/EnumAmertume.java
 /home/brunomathidios/workspace-sts/BiereLocalQuebec/commons-ws/src/main/java/com/ca/biere/local/quebec/commons/ws/exception/ValidationException.java

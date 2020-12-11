@@ -29,7 +29,7 @@
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
     "fontawesome": "^4.7.0",
-    "jquery": "^1.9.1",
+    "jquery": "^1.12.4",
     "ngb-modal": "^2.0.3",
     "ngx-mask": "^6.0.0",
     "ngx-webstorage": "^6.0.0",

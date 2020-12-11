@@ -1,0 +1,154 @@
+<form #form="ngForm" [formGroup]="signupForm" (submit)="enregistrer()" class="ml-5">
+
+    <div class="form-group row mb-4">
+        <label class="col-sm-3 badge badge-pill badge-dark" style="font-size: 100%;margin-left: 15px;">
+            {{titleForm}}
+        </label>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="form-group row">
+                <label for="nom" class="col-sm-3 col-form-label">Nom:</label>
+                <div class="col-sm-7">
+                    <input #nomInput formControlName="nom" placeholder="Nom de la bière" 
+                        [(ngModel)]="entite.nom" class="form-control" autofocus id="nom">
+                    <champ-message
+                        *ngIf="signupForm.get('nom').errors?.required && form.submitted" text="Nom est obligatoire">
+                    </champ-message>
+                    <champ-message
+                        *ngIf="signupForm.get('nom').errors?.maxlength && form.submitted" text="Nom doit avoir au maximum 150 caractères">
+                    </champ-message> 
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="origine" class="col-sm-3 col-form-label">Origine:</label>
+                <div class="col-sm-7">
+                    <input formControlName="origine" placeholder="Origine de la bière"
+                        [(ngModel)]="entite.origine" class="form-control" id="origine">
+                    <champ-message
+                        *ngIf="signupForm.get('origine').errors?.required && form.submitted" text="Origine est obligatoire">
+                    </champ-message>
+                    <champ-message
+                        *ngIf="signupForm.get('origine').errors?.maxlength && form.submitted" text="Origine doit avoir au maximum 200 caractères">
+                    </champ-message>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="tauxAlcool" class="col-sm-3 col-form-label">Taux d'alcool %:</label>
+                <div class="col-sm-7">
+                    <input formControlName="tauxAlcool" placeholder="Taux d'alcool de la bière 0.00%"
+                        [(ngModel)]="entite.tauxAlcool" class="form-control" id="tauxAlcool">
+                    <champ-message
+                        *ngIf="signupForm.get('tauxAlcool').errors?.required && form.submitted" text="Taux d'alcool est obligatoire">
+                    </champ-message>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="ibu" class="col-sm-3 col-form-label">IBU:</label>
+                <div class="col-sm-7">
+                    <input formControlName="ibu" placeholder="IBU de la bière"
+                        [(ngModel)]="entite.ibu" class="form-control" id="ibu">
+                    <champ-message
+                        *ngIf="signupForm.get('ibu').errors?.required && form.submitted" text="IBU est obligatoire">
+                    </champ-message>
+                    <champ-message
+                        *ngIf="signupForm.get('ibu').errors?.maxlength && form.submitted" text="IBU doit avoir au maximum 3 chiffres">
+                    </champ-message> 
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="amertume" class="col-sm-3 col-form-label">Amertume:</label>
+                <div class="col-sm-7">
+                    <select id="amertume" class="form-control"[(ngModel)]="entite.amertume" formControlName="amertume">
+                        <option [ngValue]="null" [disabled]="true">Sélectionner</option>
+                        <option *ngFor="let amertume of amertumeList" [ngValue]="amertume.key">
+                            {{amertume.value}}
+                        </option>
+                        </select>
+                    <champ-message
+                        *ngIf="signupForm.get('amertume').errors?.required && form.submitted" text="Amertume est obligatoire">
+                    </champ-message>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="typeBiere" class="col-sm-3 col-form-label">Type de bière:</label>
+                <div class="col-sm-7">
+                    <div>
+                        <ng-autocomplete 
+                        #autocomplete
+                        [data]="typeBiereList"
+                        [searchKeyword]="keyword"
+                        (selected)='selectEvent($event)'
+                        (inputChanged)='onChangeSearch($event)'
+                        [itemTemplate]="itemTemplate"
+                        [notFoundTemplate]="notFoundTemplate"
+                        [minQueryLength]="3"
+                        [disabled]="isViewState()"
+                        placeHolder="Type de la bière">                                 
+                        </ng-autocomplete>
+                        
+                        <ng-template #itemTemplate let-item>
+                        <a [innerHTML]="item.nom"></a>
+                        </ng-template>
+                        
+                        <ng-template #notFoundTemplate let-notFound>
+                        <div [innerHTML]="notFound"></div>
+                        </ng-template>
+                    </div>
+                    <input formControlName="idTypeBiere" [(ngModel)]="entite.idTypeBiere" hidden>
+                    <champ-message
+                        *ngIf="signupForm.get('idTypeBiere').errors?.required && form.submitted" text="Type de bière est obligatoire">
+                    </champ-message>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="description" class="col-sm-3 col-form-label">Description:</label>
+                <div class="col-sm-7">
+                    <textarea formControlName="description" placeholder="Description de la bière"
+                        [(ngModel)]="entite.description" class="form-control" id="description" rows="3"></textarea>
+                    <champ-message
+                        *ngIf="signupForm.get('description').errors?.maxlength && form.submitted" text="Description doit avoir au maximum 4000 caractères">
+                    </champ-message>
+                </div>
+            </div>
+            <div class="form-group row mt-4">
+                <label class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-7">
+                    <button class="btn btn-primary" *ngIf=showBtnEnregistrer()>
+                        <span class="fa fa-save"></span> Enregistrer
+                    </button>
+                    <button type="button" class="btn btn-secondary ml-1" (click)="annuler()">
+                        <span class="fa fa-arrow-left"></span> Retourner
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group row" *ngIf="!isViewState()">
+                <button immediateClick type="button" class="btn btn-primary" id="uploadButton" (click)="fileInput.click()">
+                    <i class="fa fa-image">
+                        <label style="font-family: Arial, Helvetica, sans-serif;">
+                            &nbsp;&nbsp;Upload une photo de la bière
+                        </label>
+                    </i>
+                </button>
+                <input #fileInput hidden formControlName="photo"
+                    type="file" accept="image/*" (change)="handleFile($event.target.files[0])">
+            </div>
+            <div class="form-group row" *ngIf="preview">
+                <div class="img">
+                    <img [src]="preview" class="img-fluid">
+                </div>
+            </div>
+            <div class="form-group row" *ngIf="imageUrl">
+                <div class="img">
+                    <img [src]="imageUrl" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+</form>

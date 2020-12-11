@@ -3,6 +3,7 @@ package com.ca.biere.local.quebec.commons.ws.config;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.ca.biere.local.quebec.commons.ws.enums.EnumConstraintViolation;
@@ -100,6 +102,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		log.error(HttpStatus.NOT_FOUND.getReasonPhrase(), ex);
 		return Response.status(HttpStatus.NOT_FOUND.value(), Object.class)
 				.message(errorMessage)
+				.build();
+	}
+
+	@ExceptionHandler(value = { MaxUploadSizeExceededException.class })
+	public ResponseEntity<Response<Object>> handleFileSizeLimitExceededException(Exception ex, WebRequest request) {
+
+		log.error(HttpStatus.BANDWIDTH_LIMIT_EXCEEDED.getReasonPhrase(), ex);
+		return Response.status(HttpStatus.BAD_REQUEST.value(), Object.class)
+				.message(this.environment.getRequiredProperty("message.error.limit.exceed.upload"))
 				.build();
 	}
 

@@ -1,5 +1,7 @@
 package com.ca.biere.local.quebec.gestion.ws.controleur;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +100,15 @@ public class TypeBiereControleur {
 		return Response.status(HttpStatus.OK.value(), TypeBiere.class)
 				.message("Type Biere mis à jour avec succès!")
 				.data(nouvelleTypeBiere)
+				.build();
+	}
+
+	@GetMapping(path = "/lister")
+	public ResponseEntity<Response<TypeBiere>> listerTypeBiereByNom(@RequestParam("nom") String nom) {
+		List<TypeBiere> result = this.service.listerTypeBiereByNom(nom);
+
+		return Response.status(HttpStatus.OK.value(), TypeBiere.class)
+				.data(result)
 				.build();
 	}
 	

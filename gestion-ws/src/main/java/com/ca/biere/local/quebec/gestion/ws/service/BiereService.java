@@ -3,10 +3,7 @@ package com.ca.biere.local.quebec.gestion.ws.service;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import javax.validation.Validator;
 
 import org.apache.commons.lang.StringUtils;
@@ -124,6 +121,7 @@ public class BiereService extends BaseEntiteService<Biere> {
 			CriteriaQuery<Long> queryCount = cb.createQuery(Long.class);
 			
 			Root<Biere> root = query.from(Biere.class);
+			root.fetch("typeBiere", JoinType.LEFT);
 			Root<Biere> rootCount = queryCount.from(Biere.class);
 			
 			query.where(this.getWhere(root, filter, cb));

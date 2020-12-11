@@ -156,4 +156,32 @@ public class TypeBiereService extends BaseEntiteService<TypeBiere>{
 			throw e;
 		}
 	}
+
+	public List<TypeBiere> listerTypeBiereByNom(String nom) {
+		try {
+			CriteriaBuilder cb = this.repository.getCriteriaBuilder();
+			CriteriaQuery<TypeBiere> query = cb.createQuery(TypeBiere.class);
+			Root<TypeBiere> root = query.from(TypeBiere.class);
+			query.where(this.getWhereNom(root, nom, cb));
+
+			List<TypeBiere> result = this.repository.getEntityManager()
+					.createQuery( query ).getResultList();
+
+			return result;
+
+		} catch (Exception e) {
+			log.error("Erreur pour recuperer les instances de TypeBiere by Nom", e);
+			throw e;
+		}
+	}
+
+	private Predicate getWhereNom(Root<TypeBiere> root, String nom, CriteriaBuilder cb) {
+		Predicate where = cb.conjunction();
+
+		if(StringUtils.isNotBlank(nom)) {
+			where = cb.and( where, cb.like(cb.upper(root.get("nom")), "%" + nom.toUpperCase() + "%") );
+		}
+
+		return where;
+	}
 }

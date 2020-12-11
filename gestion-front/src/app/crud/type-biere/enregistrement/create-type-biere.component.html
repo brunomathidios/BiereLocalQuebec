@@ -1,6 +1,6 @@
 <form #form="ngForm" [formGroup]="signupForm" (submit)="enregistrer()" class="ml-5">
 
-    <div class="form-group row mb-5">
+    <div class="form-group row mb-4">
         <label class="col-sm-3 badge badge-pill badge-dark" style="font-size: 100%;margin-left: 15px;">
             {{titleForm}}
         </label>
@@ -26,9 +26,9 @@
     <div class="form-group row">
         <label for="descriptionTypeBiere" class="col-sm-2 col-form-label">Description:</label>
         <div class="col-sm-5">
-            <input formControlName="description" placeholder="Description du type de bière"
+            <textarea formControlName="description" placeholder="Description du type de bière"
                 [(ngModel)]="entite.description" 
-                class="form-control" id="descriptionTypeBiere">
+                class="form-control" id="descriptionTypeBiere" rows="3"></textarea>
             <champ-message
                 *ngIf="signupForm.get('description').errors?.maxlength && form.submitted"
                 text="Description doit avoir au maximum 4000 caractères">
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div class="form-group row mt-5">
+    <div class="form-group row mt-4">
         <label class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
             <button class="btn btn-primary" *ngIf=showBtnEnregistrer()>

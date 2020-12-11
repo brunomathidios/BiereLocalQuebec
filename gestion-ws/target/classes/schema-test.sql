@@ -2,7 +2,7 @@ CREATE SEQUENCE public.biere_id_seq;
 CREATE SEQUENCE public.abonnement_id_seq;
 CREATE SEQUENCE public.TYPE_BIERE_ID_SEQ;
 CREATE SEQUENCE public.info_biere_id_seq;
-CREATE SEQUENCE public.recompense_biere_id_seq;
+CREATE SEQUENCE public.prix_biere_id_seq;
 CREATE SEQUENCE public.box_biere_id_seq;
 
 CREATE TABLE public.type_biere
@@ -35,24 +35,23 @@ CREATE table public.biere
     CONSTRAINT nom_biere_unique UNIQUE(nom)
 );
 
-/**
---criar tabela premiacoes
-CREATE table IF NOT EXISTS public.recompense_biere
+--criar tabela prêmios
+CREATE table public.prix_biere
 (
-    id_recompense_biere integer NOT NULL,
-    recompense character varying(1000) NOT NULL,
+    id_prix_biere integer NOT NULL,
+    prix character varying(1000) NOT NULL,
     id_biere integer NOT NULL,
     date_creation timestamp with time zone NOT null DEFAULT current_timestamp,
     date_mis_a_jour timestamp with time zone,
-    CONSTRAINT pk_recompense_biere PRIMARY KEY (id_recompense_biere),
+    CONSTRAINT pk_recompense_biere PRIMARY KEY (id_prix_biere),
+    constraint prix_biere_unique UNIQUE(prix, id_biere),
     CONSTRAINT fk_biere FOREIGN KEY (id_biere)
-        REFERENCES public.biere (id_biere) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        REFERENCES public.biere (id_biere)
 );
 
+/**
 --criar tabela informacoes do produto
-CREATE table IF NOT EXISTS public.info_biere
+CREATE table public.info_biere
 (
     id_info_biere integer NOT NULL,
     ingredient character varying(1000) NOT NULL,
@@ -72,7 +71,7 @@ CREATE table IF NOT EXISTS public.info_biere
 );
 
 --criar tabela box biere (seleção do mês)
-CREATE table IF NOT EXISTS public.box_biere
+CREATE table public.box_biere
 (
     id_box_biere integer NOT NULL,
     nom character varying(250) NOT NULL,
@@ -87,7 +86,7 @@ CREATE table IF NOT EXISTS public.box_biere
 );
 
 -- tabela many to many box (seleção do mes) e suas cervejas
-CREATE table IF NOT EXISTS public.biere_box_biere (
+CREATE table public.biere_box_biere (
   id_box_biere integer NOT NULL,
   id_biere integer NOT NULL,
   date_creation timestamp with time zone NOT null DEFAULT current_timestamp,

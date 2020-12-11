@@ -1,23 +1,19 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AlertService } from "src/app/core/alert/alert.service";
-import { EnumStateModel } from "src/app/core/model/enum-state-model";
 import { PlatformDetectorService } from "src/app/core/platform-detector/platform-detector.service";
+import { CreateBaseComponent } from "../../base/create-base.component";
 import { CreateTypeBiereService } from "./create-type-biere.service";
 import { TypeBiereModel } from "./type-biere.model";
 
 @Component({
     templateUrl: './create-type-biere.component.html'
 })
-export class CreateTypeBiereComponent implements OnInit {
+export class CreateTypeBiereComponent extends CreateBaseComponent implements OnInit {
 
-    signupForm: FormGroup;
     @ViewChild('nomInput') nomInput: ElementRef<HTMLInputElement>;
-    stateModeCode: number;
     entite: TypeBiereModel = new TypeBiereModel();
-    titleForm: string;
-    private paramId: number;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -26,6 +22,7 @@ export class CreateTypeBiereComponent implements OnInit {
         private platformDetectorService: PlatformDetectorService,
         private alertService: AlertService,
         private activatedRoute: ActivatedRoute) {
+            super();
     }
 
     ngOnInit(): void {
@@ -69,18 +66,6 @@ export class CreateTypeBiereComponent implements OnInit {
         });
     }
 
-    isViewState() {
-        return EnumStateModel.VISUALISER === this.stateModeCode;
-    }
-
-    isAddState() {
-        return EnumStateModel.AJOUTER === this.stateModeCode;
-    }
-
-    isEditState() {
-        return EnumStateModel.MODIFIER === this.stateModeCode;
-    }
-
     enregistrer() {
         if(this.signupForm.valid && !this.signupForm.pending) {
 
@@ -116,6 +101,7 @@ export class CreateTypeBiereComponent implements OnInit {
                         }
                     );
             }
+            sessionStorage.removeItem('typeBiereFilter');
         }
     }
 
@@ -128,9 +114,5 @@ export class CreateTypeBiereComponent implements OnInit {
     annuler() {
         this.entite = new TypeBiereModel();
         this.router.navigate(['type-biere']);    
-    }
-
-    showBtnEnregistrer() {
-        return this.isAddState() || this.isEditState();
     }
 }

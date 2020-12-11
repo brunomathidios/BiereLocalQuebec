@@ -19,6 +19,8 @@ import com.ca.biere.local.quebec.commons.ws.exception.ValidationException;
 import com.ca.biere.local.quebec.gestion.ws.filter.TypeBiereFilter;
 import com.ca.biere.local.quebec.gestion.ws.service.TypeBiereService;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 @DataJpaTest
@@ -231,5 +233,12 @@ public class TypeBiereServiceTest {
 		Assert.assertEquals(message, exception.getErrors().get(0));
 	}
 	
-	
+	@Test
+	public void listerTypeBiereByNomIpaDoitRetourner3Enregistrements() {
+		List<TypeBiere> result = this.service.listerTypeBiereByNom("ipa");
+
+		Assert.assertNotNull(result);
+		Assert.assertFalse(result.isEmpty());
+		Assert.assertEquals(3, result.size());
+	}
 }

@@ -50,7 +50,7 @@ public class Biere extends BaseEntite {
 	@Column(name = "ibu")
 	private Integer ibu;
 	
-	@NotNull(message = "Le cham 'amertume' est obligatoire")
+	@NotNull(message = "Le champ 'amertume' est obligatoire")
 	@Column(name = "amertume")
 	@Enumerated(EnumType.STRING)
 	private EnumAmertume amertume;
@@ -67,7 +67,7 @@ public class Biere extends BaseEntite {
 	@JoinColumn(name = "id_type_biere", updatable = false, insertable = false)
 	private TypeBiere typeBiere;
 	
-	@NotNull(message = "Le cham 'type de bière' est obligatoire")
+	@NotNull(message = "Le champ 'type de bière' est obligatoire")
 	@Column(name = "id_type_biere")
 	private Long idTypeBiere;
 

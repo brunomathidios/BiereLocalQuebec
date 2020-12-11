@@ -50,4 +50,9 @@ public class BaseRepositoryImpl<T extends BaseEntite> extends SimpleJpaRepositor
 		return this.entityManager.createQuery(query).getSingleResult();
 	}
 
+	@Override
+	public EntityManager getEntityManager() {
+		return this.entityManager;
+	}
+
 }
