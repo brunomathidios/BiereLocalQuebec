@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.persistence.criteria.*;
 import javax.validation.Validator;
 
+import com.ca.biere.local.quebec.commons.ws.entite.TypeBiere;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -187,6 +188,33 @@ public class BiereService extends BaseEntiteService<Biere> {
 			where = cb.and( where, cb.equal(root.get("idTypeBiere"), filter.getIdTypeBiere() ));
 		}
 		
+		return where;
+	}
+
+	public List<Biere> listerBiereByNom(String nom) {
+		try {
+			CriteriaBuilder cb = this.repository.getCriteriaBuilder();
+			CriteriaQuery<Biere> query = cb.createQuery(Biere.class);
+			Root<Biere> root = query.from(Biere.class);
+			query.where(this.getWhereNom(root, nom, cb));
+
+			List<Biere> result = this.repository.getEntityManager().createQuery( query ).getResultList();
+
+			return result;
+
+		} catch (Exception e) {
+			log.error("Erreur pour recuperer les instances de Biere by Nom", e);
+			throw e;
+		}
+	}
+
+	private Predicate getWhereNom(Root<Biere> root, String nom, CriteriaBuilder cb) {
+		Predicate where = cb.conjunction();
+
+		if(StringUtils.isNotBlank(nom)) {
+			where = cb.and( where, cb.like(cb.upper(root.get("nom")), "%" + nom.toUpperCase() + "%") );
+		}
+
 		return where;
 	}
 

@@ -1,0 +1,130 @@
+<form class="ml-5">
+    <div class="form-group row">
+        <label for="inputPrix" class="col-sm-2 col-form-label">Prix:</label>
+        <div class="col-sm-5">
+        <input type="text" class="form-control" id="inputPrix" name="prix" maxlength="100" [(ngModel)]="filter.prix">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputBiere" class="col-sm-2 col-form-label">Bière:</label>
+        <div class="col-sm-5">
+            <ng-autocomplete 
+              [data]="biereList"
+              [searchKeyword]="keyword"
+              (selected)='selectEvent($event)'
+              (inputChanged)='onChangeSearch($event)'
+              [itemTemplate]="itemTemplate"
+              [notFoundTemplate]="notFoundTemplate"
+              [minQueryLength]="3">                                 
+            </ng-autocomplete>
+              
+            <ng-template #itemTemplate let-item>
+            <a [innerHTML]="item.nom"></a>
+            </ng-template>
+              
+            <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+            </ng-template>
+        </div>
+    </div>
+</form>
+  
+<div class="row mt-4 mb-4" style="margin-left: 275px;">
+    <button type="button" class="btn btn-primary" (click)="recherche()">
+        <span class="fa fa-search"></span> Rechercher
+    </button>
+    <button type="button" class="btn btn-secondary ml-1" (click)="clearFilter()">
+        <span class="fa fa-eraser"></span> Effacer
+    </button>
+</div>
+
+<div class="row no-gutters" style="margin-bottom: 5px">
+    <div class="col-sm-4" style="text-align: left;">
+        <span class="statusResultado">
+            <label>{{ tableResume }}</label>
+        </span>
+    </div>
+    <div class="col-sm-8 text-right btn-pr-15" [ngClass]="{'btn-pr-0': prixList.length == 0,'btn-pr-15': prixList.length > 0}">
+        <button type="button" class="btn btn-primary" (click)="allerToForm(ENUM_STATE_MODEL.AJOUTER)">
+            <span class="fa fa-plus"></span> Ajouter prix
+        </button>
+    </div>
+</div>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th style="width:5%" class="text-center">#</th>
+        <th style="width:55%">
+          Nom
+          <i class="fa fa-angle-down icon-angle" 
+            (click)="sort('prix', 'desc')" *ngIf="prixList.length > 0"></i>
+          <i class="fa fa-angle-up icon-angle" 
+            (click)="sort('prix', 'asc')" *ngIf="prixList.length > 0"></i>
+        </th>
+        <th style="width:30%">
+          Bière
+          <i class="fa fa-angle-down icon-angle-mr" 
+            (click)="sort('biere.nom', 'desc')" *ngIf="prixList.length > 0"></i>
+          <i class="fa fa-angle-up icon-angle" 
+            (click)="sort('biere.nom', 'asc')" *ngIf="prixList.length > 0"></i>
+        </th>
+        <th style="width:10%" class="text-center">Gérer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prix of prixList">
+        <th scope="row" class="text-center">{{prix.idPrix}}</th>
+        <td>{{prix.prix}}</td>
+        <td>{{prix.nomBiere}}</td>
+        <td class="text-center">
+          <a class="btn-column-gerer" title="Modifier" (click)="allerToForm(ENUM_STATE_MODEL.MODIFIER, prix.idPrix)">
+            <i class="fa fa-edit fa-lg" aria-hidden="true"></i>
+          </a>
+          <a class="btn-column-gerer" title="Supprimer" (click)="effacer(prix.idPrix)">
+            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+          </a>
+          <a class="btn-column-gerer" title="Visualiser" (click)="allerToForm(ENUM_STATE_MODEL.VISUALISER, prix.idPrix)">
+            <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="row" 
+    *ngIf="prixList.length > 0 && totalElements > 5">  
+    <div class="col-lg-8 col-md-10 ml-auto mr-auto">  
+      <gestion-pagination 
+        [totalRecords]="totalElements" 
+        [recordsPerPage]="pageable.pageSize" 
+        (onPageChange)="displayActivePage($event)">
+      </gestion-pagination>    
+    </div>  
+  </div>
+  
+  <div class="row" 
+    *ngIf="prixList.length == 0 && hasSearched">
+    <div class="col-lg-8 col-md-10 ml-auto mr-auto text-center">
+      <label>Aucun résultat de recherche n'a été trouvé.</label>
+    </div>
+  </div>
+
+  <ng-template #modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Prix de la bière</h4>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <span>Voulez-vous supprimer l'enregistrement sélectionné?</span>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" 
+        (click)="supprimer()">Oui</button>
+        <button type="button" class="btn btn-outline-dark" 
+        (click)="close()">Non</button>
+    </div>
+  </ng-template>

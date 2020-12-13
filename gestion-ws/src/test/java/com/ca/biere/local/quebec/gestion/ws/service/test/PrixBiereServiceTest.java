@@ -6,6 +6,7 @@ import com.ca.biere.local.quebec.commons.ws.entite.TypeBiere;
 import com.ca.biere.local.quebec.commons.ws.exception.ResourceNotFoundException;
 import com.ca.biere.local.quebec.commons.ws.exception.SaveEntiteException;
 import com.ca.biere.local.quebec.commons.ws.exception.ValidationException;
+import com.ca.biere.local.quebec.gestion.ws.dto.PrixBiereDTO;
 import com.ca.biere.local.quebec.gestion.ws.filter.PrixBiereFilter;
 import com.ca.biere.local.quebec.gestion.ws.filter.TypeBiereFilter;
 import com.ca.biere.local.quebec.gestion.ws.service.PrixBiereService;
@@ -213,7 +214,7 @@ public class PrixBiereServiceTest {
         PrixBiereFilter filter = new PrixBiereFilter();
         Pageable page = PageRequest.of(0, 5);
 
-        Page<PrixBiere> result = this.service.listerPrix(filter, page);
+        Page<PrixBiereDTO> result = this.service.listerPrix(filter, page);
 
         Assert.assertNotNull(result);
         Assert.assertFalse(result.getContent().isEmpty());
@@ -228,7 +229,7 @@ public class PrixBiereServiceTest {
 
         Pageable page = PageRequest.of(0, 5);
 
-        Page<PrixBiere> result = this.service.listerPrix(filter, page);
+        Page<PrixBiereDTO> result = this.service.listerPrix(filter, page);
 
         Assert.assertNotNull(result);
         Assert.assertFalse(result.getContent().isEmpty());
@@ -242,7 +243,7 @@ public class PrixBiereServiceTest {
 
         Pageable page = PageRequest.of(0, 5);
 
-        Page<PrixBiere> result = this.service.listerPrix(filter, page);
+        Page<PrixBiereDTO> result = this.service.listerPrix(filter, page);
 
         Assert.assertNotNull(result);
         Assert.assertFalse(result.getContent().isEmpty());

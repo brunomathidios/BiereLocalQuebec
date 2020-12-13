@@ -4,6 +4,7 @@ import com.ca.biere.local.quebec.commons.ws.entite.PrixBiere;
 import com.ca.biere.local.quebec.commons.ws.entite.TypeBiere;
 import com.ca.biere.local.quebec.commons.ws.pojo.Response;
 import com.ca.biere.local.quebec.commons.ws.utils.JsonUtils;
+import com.ca.biere.local.quebec.gestion.ws.dto.PrixBiereDTO;
 import com.ca.biere.local.quebec.gestion.ws.filter.PrixBiereFilter;
 import com.ca.biere.local.quebec.gestion.ws.filter.TypeBiereFilter;
 import com.ca.biere.local.quebec.gestion.ws.service.PrixBiereService;
@@ -73,7 +74,7 @@ public class PrixBiereControleur {
         this.service.deleteById(id);
 
         return Response.status(HttpStatus.OK.value(), PrixBiere.class)
-                .message("Prix de la bière effacé avec succès!")
+                .message("Prix de la bière supprimé avec succès!")
                 .build();
     }
 
@@ -83,7 +84,7 @@ public class PrixBiereControleur {
 
         PrixBiereFilter prixBiereFilter = JsonUtils.convertFromJson(filter, PrixBiereFilter.class);
 
-        Page<PrixBiere> result = this.service.listerPrix(prixBiereFilter, page);
+        Page<PrixBiereDTO> result = this.service.listerPrix(prixBiereFilter, page);
 
         return Response.status(HttpStatus.OK.value(), Page.class)
                 .message(HttpStatus.OK.getReasonPhrase())

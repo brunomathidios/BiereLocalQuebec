@@ -4,6 +4,7 @@ import com.ca.biere.local.quebec.commons.ws.entite.PrixBiere;
 import com.ca.biere.local.quebec.commons.ws.exception.ResourceNotFoundException;
 import com.ca.biere.local.quebec.commons.ws.exception.SaveEntiteException;
 import com.ca.biere.local.quebec.commons.ws.service.BaseEntiteService;
+import com.ca.biere.local.quebec.gestion.ws.dto.PrixBiereDTO;
 import com.ca.biere.local.quebec.gestion.ws.filter.PrixBiereFilter;
 import com.ca.biere.local.quebec.gestion.ws.repository.PrixBiereRepository;
 import org.apache.commons.lang.StringUtils;
@@ -115,22 +116,22 @@ public class PrixBiereService extends BaseEntiteService<PrixBiere> {
         }
     }
 
-    public Page<PrixBiere> listerPrix(PrixBiereFilter filter, Pageable page) {
+    public Page<PrixBiereDTO> listerPrix(PrixBiereFilter filter, Pageable page) {
         try {
             CriteriaBuilder cb = this.repository.getCriteriaBuilder();
-            CriteriaQuery<PrixBiere> query = cb.createQuery(PrixBiere.class);
+            CriteriaQuery<PrixBiereDTO> query = cb.createQuery(PrixBiereDTO.class);
             CriteriaQuery<Long> queryCount = cb.createQuery(Long.class);
 
             Root<PrixBiere> root = query.from(PrixBiere.class);
-            root.fetch("biere", JoinType.LEFT);
             Root<PrixBiere> rootCount = queryCount.from(PrixBiere.class);
 
+            query.select(cb.construct(PrixBiereDTO.class, root.get("idPrix"), root.get("prix"), root.get("biere").get("nom")));
             query.where(this.getWhere(root, filter, cb));
 
             queryCount.select(cb.count(rootCount));
             queryCount.where(this.getWhere(rootCount, filter, cb));
 
-            List<PrixBiere> result = this.repository.findCriteriaQuery(query, page, root, cb);
+            List<PrixBiereDTO> result = this.repository.findCriteriaQueryWithDTO(query, page, root, cb);
             Long resultCount = this.repository.executeCriteriaQuery( queryCount );
 
             return new PageImpl<>( result, page, resultCount );

@@ -1,7 +1,5 @@
 package com.ca.biere.local.quebec.commons.ws.entite;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -25,7 +23,6 @@ public class PrixBiere extends BaseEntite {
     private String prix;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @JsonIgnoreProperties( {"photo"} )
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_biere", updatable = false, insertable = false)
     private Biere biere;

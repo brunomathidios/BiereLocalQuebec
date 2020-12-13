@@ -18,6 +18,7 @@ public interface BaseRepository<T extends BaseEntite> extends JpaRepository<T, L
 
 	CriteriaBuilder getCriteriaBuilder();
 	<E> List<E> findCriteriaQuery(CriteriaQuery<E> query, Pageable pageable, Root<E> root, CriteriaBuilder cb);
+	<E> List<E> findCriteriaQueryWithDTO(CriteriaQuery<E> query, Pageable pageable, Root<T> root, CriteriaBuilder cb);
 	<R> R executeCriteriaQuery(CriteriaQuery<R> query);
 	EntityManager getEntityManager();
 }

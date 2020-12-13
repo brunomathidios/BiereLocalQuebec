@@ -7,8 +7,9 @@ export abstract class SearchBaseComponent {
     tableResume: string;
     ENUM_STATE_MODEL = EnumStateModel;
     stateModel = EnumStateModel.SANS_ETAT;
+    totalElements: number;
+    hasSearched = false;
     protected idEntiteSupprimer: number;
-    protected hasSearched = false;
     protected demarrerPage = true;
 
     abstract search();

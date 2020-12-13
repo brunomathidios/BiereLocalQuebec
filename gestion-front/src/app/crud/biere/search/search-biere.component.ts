@@ -22,7 +22,6 @@ export class SearchBiereComponent extends SearchBaseComponent implements OnInit 
     typeBiereList: TypeBiereModel[] = [];
     keyword = 'nom';
     biereList: BiereModel[] = [ ];
-    totalElements: number;
 
     @ViewChild('modal') 
     private modalContent: TemplateRef<SearchBiereComponent>;

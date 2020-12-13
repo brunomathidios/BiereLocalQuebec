@@ -59,4 +59,14 @@ export class SearchBiereService {
             })
         );
     }
+
+    getBiereByNom(nom: string): Observable<any> {
+        
+        const params = new HttpParams().set('nom', nom);
+
+        return this.http.get(this.API_BIERE + "/nom", {params: params})
+            .pipe(map(res => {
+                return res['data'];
+            }));
+    }
 }

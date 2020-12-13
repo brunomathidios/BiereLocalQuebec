@@ -46,6 +46,21 @@ public class BaseRepositoryImpl<T extends BaseEntite> extends SimpleJpaRepositor
 	}
 
 	@Override
+	public <E> List<E> findCriteriaQueryWithDTO(CriteriaQuery<E> query, Pageable pageable, Root<T> root, CriteriaBuilder cb) {
+
+		query.orderBy(QueryUtils.toOrders(pageable.getSort(), root, cb));
+
+		TypedQuery<E> typedQuery = this.entityManager.createQuery( query );
+
+		if( pageable != null && pageable.getPageSize() > 0 ) {
+			typedQuery.setFirstResult( pageable.getPageNumber() * pageable.getPageSize() );
+			typedQuery.setMaxResults( pageable.getPageSize() );
+		}
+
+		return typedQuery.getResultList();
+	}
+
+	@Override
 	public <R> R executeCriteriaQuery(CriteriaQuery<R> query) {
 		return this.entityManager.createQuery(query).getSingleResult();
 	}

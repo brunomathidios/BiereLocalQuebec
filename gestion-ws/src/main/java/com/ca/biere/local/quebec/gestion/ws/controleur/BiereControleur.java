@@ -1,8 +1,10 @@
 package com.ca.biere.local.quebec.gestion.ws.controleur;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
+import com.ca.biere.local.quebec.commons.ws.entite.TypeBiere;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +111,15 @@ public class BiereControleur {
 		
 		return Response.status(HttpStatus.OK.value(), Page.class)
 				.message(HttpStatus.OK.getReasonPhrase())
+				.data(result)
+				.build();
+	}
+
+	@GetMapping(path = "/nom")
+	public ResponseEntity<Response<Biere>> listerBiereByNom(@RequestParam("nom") String nom) {
+		List<Biere> result = this.service.listerBiereByNom(nom);
+
+		return Response.status(HttpStatus.OK.value(), Biere.class)
 				.data(result)
 				.build();
 	}

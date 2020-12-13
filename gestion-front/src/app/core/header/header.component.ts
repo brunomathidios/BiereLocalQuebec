@@ -9,6 +9,7 @@ export class HeaderComponent implements OnInit {
 
     typeBiere = false;
     biere = false;
+    prix = false;
     boxBiere = false;
     rapports = false;
 
@@ -20,8 +21,12 @@ export class HeaderComponent implements OnInit {
 
         if(path === 'type-biere') {
             this.typeBiere = true;
+
         } else if (path === 'biere') {
             this.biere = true;
+            
+        } else if (path === 'prix') {
+            this.prix = true;
         }
     }
 
@@ -29,6 +34,7 @@ export class HeaderComponent implements OnInit {
         sessionStorage.clear();
         this.typeBiere = true;
         this.biere = false;
+        this.prix = false;
         this.boxBiere = false;
         this.rapports = false;
         this.router.navigate(['type-biere']);
@@ -38,15 +44,27 @@ export class HeaderComponent implements OnInit {
         sessionStorage.clear();
         this.typeBiere = false;
         this.biere = true;
+        this.prix = false;
         this.boxBiere = false;
         this.rapports = false;
         this.router.navigate(['biere']);
+    }
+
+    preparerPrixBiere() {
+        sessionStorage.clear();
+        this.typeBiere = false;
+        this.biere = false;
+        this.prix = true;
+        this.boxBiere = false;
+        this.rapports = false;
+        this.router.navigate(['prix']);
     }
 
     preparerBoxBiere() {
         sessionStorage.clear();
         this.typeBiere = false;
         this.biere = false;
+        this.prix = false;
         this.boxBiere = true;
         this.rapports = false;
         //this.router.navigate(['type-biere']);
@@ -56,6 +74,7 @@ export class HeaderComponent implements OnInit {
         sessionStorage.clear();
         this.typeBiere = false;
         this.biere = false;
+        this.prix = false;
         this.boxBiere = false;
         this.rapports = true;
         //this.router.navigate(['biere']);

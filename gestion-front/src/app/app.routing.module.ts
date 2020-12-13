@@ -16,6 +16,11 @@ const routes: Routes = [
         path: 'biere',
         loadChildren: () =>
             import('./crud/biere/biere.module').then(m => m.BiereModule)
+    },
+    {
+        path: 'prix',
+        loadChildren: () =>
+            import('./crud/prix/prix.module').then(m => m.PrixModule)
     }
 ]
 
