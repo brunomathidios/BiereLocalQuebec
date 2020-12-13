@@ -1,7 +1,9 @@
 package com.ca.biere.local.quebec.gestion.ws.controleur.test;
 
-import java.math.BigDecimal;
-
+import com.ca.biere.local.quebec.commons.ws.enums.EnumAmertume;
+import com.ca.biere.local.quebec.commons.ws.utils.JsonUtils;
+import com.ca.biere.local.quebec.gestion.ws.controleur.base.test.ControleurBaseTest;
+import com.ca.biere.local.quebec.gestion.ws.filter.BiereFilter;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
 import org.junit.Test;
@@ -11,16 +13,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.ca.biere.local.quebec.commons.ws.enums.EnumAmertume;
-import com.ca.biere.local.quebec.commons.ws.utils.JsonUtils;
-import com.ca.biere.local.quebec.gestion.ws.controleur.base.test.ControleurBaseTest;
-import com.ca.biere.local.quebec.gestion.ws.filter.BiereFilter;
+import java.math.BigDecimal;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest 
@@ -36,43 +36,48 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Autowired
 	private Environment environment;
+
+	private MockMultipartFile getMockMultipartFile(String json) {
+		return new MockMultipartFile("biere", "json", "application/json", json.getBytes());
+	}
 	
 	@Test
 	public void insertEntiteAvecIdDoitRetournerException() throws Exception {
-		String entiteAvecId = 
-				"	{\n" + 
-				"		\"idBiere\": 5000,\n" + 
-				"		\"nom\": \"nom biere\",\n" + 
-				"	    \"description\": \"description biere\"\n" + 
-				"	}"; 
-		
+		String json =
+				"{\n" + "\"idBiere\": 5000,\n" + "\"nom\": \"nom biere\",\n" + "\"description\": \"description biere\"\n" + "}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		String msg = this.environment.getRequiredProperty("message.error.methode.insert");
 	
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post(this.uriControleur)
-			.header("Content-Type", this.contentType)
-			.content(entiteAvecId))
+			.perform(MockMvcRequestBuilders.multipart(this.uriControleur)
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.messages[0]", Matchers.equalTo(msg)));
+			.andExpect(MockMvcResultMatchers.jsonPath("$.messages[0]", Matchers.equalTo(msg)))
+		;
 	}
 	
 	@Test
 	public void insertEntiteSansNomDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
-				"	    \"origine\": \"origine test\",\n" + 
+				"	    \"origine\": \"origine test\",\n" +
 				"	    \"tauxAlcool\": 5.60,\n" + 
 				"	    \"ibu\": 20,\n" + 
 				"	    \"amertume\": \"MOYENNE\",\n" + 
 				"	    \"idTypeBiere\": 1\n" + 
-				"	}"; 
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
 		
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post(this.uriControleur)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(MockMvcRequestBuilders.multipart(this.uriControleur)
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
@@ -83,19 +88,21 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void insertEntiteSansOrigineDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nom test\",\n" + 
 				"	    \"tauxAlcool\": 5.60,\n" + 
 				"	    \"ibu\": 20,\n" + 
 				"	    \"amertume\": \"MOYENNE\",\n" + 
 				"	    \"idTypeBiere\": 1\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post(this.uriControleur)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(MockMvcRequestBuilders.multipart(this.uriControleur)
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
@@ -106,42 +113,46 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void insertEntiteSansTauxAlcoolDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nom test\",\n" + 
 				"	    \"origine\": \"brésil\",\n" + 
 				"	    \"ibu\": 20,\n" + 
 				"	    \"amertume\": \"MOYENNE\",\n" + 
 				"	    \"idTypeBiere\": 1\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post(this.uriControleur)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(MockMvcRequestBuilders.multipart(this.uriControleur)
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages", Matchers.hasSize(1)))
 			.andExpect(MockMvcResultMatchers
-					.jsonPath("$.messages[0]", Matchers.containsStringIgnoringCase("taxu d'alcool")));
+					.jsonPath("$.messages[0]", Matchers.containsStringIgnoringCase("taux d'alcool")));
 	}
 	
 	@Test
 	public void insertEntiteSansIbuDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nom test\",\n" + 
 				"	    \"origine\": \"brésil\",\n" + 
 				"	    \"tauxAlcool\": 5.60,\n" + 
 				"	    \"amertume\": \"MOYENNE\",\n" + 
 				"	    \"idTypeBiere\": 1\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post(this.uriControleur)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(MockMvcRequestBuilders.multipart(this.uriControleur)
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
@@ -152,19 +163,21 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void insertEntiteSansAmertumeDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nom test\",\n" + 
 				"	    \"origine\": \"brésil\",\n" + 
 				"	    \"tauxAlcool\": 5.60,\n" + 
 				"	    \"ibu\": 35,\n" + 
 				"	    \"idTypeBiere\": 1\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post(this.uriControleur)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(MockMvcRequestBuilders.multipart(this.uriControleur)
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
@@ -175,19 +188,21 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void insertEntiteSansIdTypeBiereDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nom test\",\n" + 
 				"	    \"origine\": \"brésil\",\n" + 
 				"	    \"tauxAlcool\": 5.60,\n" + 
 				"	    \"ibu\": 35,\n" + 
 				"	    \"amertume\": \"MOYENNE\"\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post(this.uriControleur)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(MockMvcRequestBuilders.multipart(this.uriControleur)
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
@@ -198,7 +213,7 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void insertEntiteSansAucunChampRempliDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": null,\n" + 
 				"	    \"origine\": null,\n" + 
@@ -206,12 +221,14 @@ public class BiereControleurTest extends ControleurBaseTest {
 				"	    \"ibu\": null,\n" + 
 				"	    \"amertume\": null,\n" +
 				"	    \"idTypeBiere\": null\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post(this.uriControleur)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(MockMvcRequestBuilders.multipart(this.uriControleur)
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
@@ -220,7 +237,7 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void insertEntiteAvecSuccess() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nom test\",\n" + 
 				"	    \"origine\": \"origine test\",\n" + 
@@ -228,12 +245,14 @@ public class BiereControleurTest extends ControleurBaseTest {
 				"	    \"ibu\": 20,\n" + 
 				"	    \"amertume\": \"MOYENNE\",\n" + 
 				"	    \"idTypeBiere\": 1\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post(this.uriControleur)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(MockMvcRequestBuilders.multipart(this.uriControleur)
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isCreated())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isNotEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages", Matchers.hasSize(1)))
@@ -243,7 +262,7 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void misAJourEntiteSansIdDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nom test\",\n" + 
 				"	    \"origine\": \"origine test\",\n" + 
@@ -251,30 +270,34 @@ public class BiereControleurTest extends ControleurBaseTest {
 				"	    \"ibu\": 20,\n" + 
 				"	    \"amertume\": \"MOYENNE\",\n" + 
 				"	    \"idTypeBiere\": 1\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.put(this.uriControleur + "/" + null)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(this.getMockMultipartBuilderToHttpPUTMethod(this.uriControleur + "/" + null)
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest());
 	}
 	
 	@Test
 	public void misAJourEntiteSansNomDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"origine\": \"origine test\",\n" + 
 				"	    \"tauxAlcool\": 5.60,\n" + 
 				"	    \"ibu\": 20,\n" + 
 				"	    \"amertume\": \"MOYENNE\",\n" + 
 				"	    \"idTypeBiere\": 1\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.put(this.uriControleur + "/" + 1L)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(this.getMockMultipartBuilderToHttpPUTMethod(this.uriControleur + "/1")
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
@@ -285,19 +308,21 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void misAJourEntiteSansOrigineDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nom test\",\n" + 
 				"	    \"tauxAlcool\": 5.60,\n" + 
 				"	    \"ibu\": 20,\n" + 
 				"	    \"amertume\": \"MOYENNE\",\n" + 
 				"	    \"idTypeBiere\": 1\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.put(this.uriControleur + "/" + 1L)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(this.getMockMultipartBuilderToHttpPUTMethod(this.uriControleur + "/1")
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
@@ -308,42 +333,46 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void misAJourEntiteSansTauxAlcoolDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nom test\",\n" + 
 				"	    \"origine\": \"brésil\",\n" + 
 				"	    \"ibu\": 20,\n" + 
 				"	    \"amertume\": \"MOYENNE\",\n" + 
 				"	    \"idTypeBiere\": 1\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.put(this.uriControleur + "/" + 1L)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(this.getMockMultipartBuilderToHttpPUTMethod(this.uriControleur + "/1")
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages", Matchers.hasSize(1)))
 			.andExpect(MockMvcResultMatchers
-					.jsonPath("$.messages[0]", Matchers.containsStringIgnoringCase("taxu d'alcool")));
+					.jsonPath("$.messages[0]", Matchers.containsStringIgnoringCase("taux d'alcool")));
 	}
 	
 	@Test
 	public void misAJourEntiteSansIbuDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nom test\",\n" + 
 				"	    \"origine\": \"brésil\",\n" + 
 				"	    \"tauxAlcool\": 5.60,\n" + 
 				"	    \"amertume\": \"MOYENNE\",\n" + 
 				"	    \"idTypeBiere\": 1\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.put(this.uriControleur + "/" + 1L)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(this.getMockMultipartBuilderToHttpPUTMethod(this.uriControleur + "/1")
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
@@ -354,19 +383,21 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void misAJourEntiteSansAmertumeDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nom test\",\n" + 
 				"	    \"origine\": \"brésil\",\n" + 
 				"	    \"tauxAlcool\": 5.60,\n" + 
 				"	    \"ibu\": 35,\n" + 
 				"	    \"idTypeBiere\": 1\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.put(this.uriControleur + "/" + 1L)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(this.getMockMultipartBuilderToHttpPUTMethod(this.uriControleur + "/1")
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
@@ -377,19 +408,21 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void misAJourEntiteSansIdTypeBiereDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nom test\",\n" + 
 				"	    \"origine\": \"brésil\",\n" + 
 				"	    \"tauxAlcool\": 5.60,\n" + 
 				"	    \"ibu\": 35,\n" + 
 				"	    \"amertume\": \"MOYENNE\"\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.put(this.uriControleur + "/" + 1L)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(this.getMockMultipartBuilderToHttpPUTMethod(this.uriControleur + "/1")
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
@@ -400,7 +433,7 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void misAJourEntiteSansAucunChampRempliDoitRetournerException() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": null,\n" + 
 				"	    \"origine\": null,\n" + 
@@ -408,12 +441,14 @@ public class BiereControleurTest extends ControleurBaseTest {
 				"	    \"ibu\": null,\n" + 
 				"	    \"amertume\": null,\n" +
 				"	    \"idTypeBiere\": null\n" + 
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.put(this.uriControleur + "/" + 1L)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(this.getMockMultipartBuilderToHttpPUTMethod(this.uriControleur + "/1")
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages").exists())
@@ -422,7 +457,7 @@ public class BiereControleurTest extends ControleurBaseTest {
 	
 	@Test
 	public void misAJourEntiteAvecSuccess() throws Exception {
-		String entite = 
+		String json =
 				"	{\n" + 
 				"	    \"nom\": \"nouvelle nom test\",\n" + 
 				"	    \"origine\": \"origine test\",\n" + 
@@ -431,12 +466,14 @@ public class BiereControleurTest extends ControleurBaseTest {
 				"	    \"amertume\": \"MOYENNE\",\n" + 
 				"	    \"idTypeBiere\": 1,\n" +
 				"		\"dateCreation\": \"2020-11-13T22:57:42.345+00:00\"\n" +
-				"	}"; 
-		
+				"	}";
+
+		MockMultipartFile entite = this.getMockMultipartFile(json);
+
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.put(this.uriControleur + "/" + 1L)
-			.header("Content-Type", this.contentType)
-			.content(entite))
+			.perform(this.getMockMultipartBuilderToHttpPUTMethod(this.uriControleur + "/1")
+			.file(entite)
+			.header("Content-Type", this.contentType))
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isNotEmpty())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.messages", Matchers.hasSize(1)))

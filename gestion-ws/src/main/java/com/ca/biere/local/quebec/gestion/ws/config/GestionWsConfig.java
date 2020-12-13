@@ -6,5 +6,5 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource({ "classpath:gestion-ws-messages.properties" })
 public class GestionWsConfig {
-	
+
 }
