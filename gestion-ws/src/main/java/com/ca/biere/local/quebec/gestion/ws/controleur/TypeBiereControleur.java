@@ -1,37 +1,20 @@
 package com.ca.biere.local.quebec.gestion.ws.controleur;
 
-import java.lang.reflect.Type;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.ca.biere.local.quebec.commons.ws.entite.TypeBiere;
 import com.ca.biere.local.quebec.commons.ws.pojo.Response;
 import com.ca.biere.local.quebec.commons.ws.utils.JsonUtils;
 import com.ca.biere.local.quebec.gestion.ws.filter.TypeBiereFilter;
 import com.ca.biere.local.quebec.gestion.ws.service.TypeBiereService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(
-	allowedHeaders = "*",
-	methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE},
-	origins="*"
-)
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "${application.domain}/types")
 public class TypeBiereControleur {

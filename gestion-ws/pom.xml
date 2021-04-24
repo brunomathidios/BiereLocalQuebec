@@ -54,6 +54,12 @@
 			<artifactId>git-commit-id-plugin</artifactId>
 			<version>4.0.4</version>
 		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.20</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -94,6 +100,10 @@
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
 					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
 					<format>json</format>
+					<excludeProperties>
+						<excludeProperty>git.build.user.*</excludeProperty>
+						<excludeProperty>git.commit.user.*</excludeProperty>
+					</excludeProperties>
 					<gitDescribe>
 						<skip>false</skip>
 						<always>false</always>

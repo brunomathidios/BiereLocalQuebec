@@ -7,11 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-@CrossOrigin(
-        allowedHeaders = "*",
-        methods = {RequestMethod.GET},
-        origins="*"
-)
 @RestController
 @RequestMapping(value = "${application.domain}/version")
 public class VersionController {

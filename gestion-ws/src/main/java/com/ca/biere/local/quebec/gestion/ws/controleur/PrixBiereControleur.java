@@ -1,12 +1,10 @@
 package com.ca.biere.local.quebec.gestion.ws.controleur;
 
 import com.ca.biere.local.quebec.commons.ws.entite.PrixBiere;
-import com.ca.biere.local.quebec.commons.ws.entite.TypeBiere;
 import com.ca.biere.local.quebec.commons.ws.pojo.Response;
 import com.ca.biere.local.quebec.commons.ws.utils.JsonUtils;
 import com.ca.biere.local.quebec.gestion.ws.dto.PrixBiereDTO;
 import com.ca.biere.local.quebec.gestion.ws.filter.PrixBiereFilter;
-import com.ca.biere.local.quebec.gestion.ws.filter.TypeBiereFilter;
 import com.ca.biere.local.quebec.gestion.ws.service.PrixBiereService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,11 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@CrossOrigin(
-        allowedHeaders = "*",
-        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE},
-        origins="*"
-)
 @RestController
 @RequestMapping(value = "${application.domain}/prix")
 public class PrixBiereControleur {

@@ -1,7 +1,10 @@
 package com.ca.biere.local.quebec.gestion.ws.dto;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
+@Data
 public class PrixBiereDTO implements Serializable {
 
     private Long idPrix;
@@ -11,30 +14,6 @@ public class PrixBiereDTO implements Serializable {
     public PrixBiereDTO(Long idPrix, String prix, String nomBiere) {
         this.idPrix = idPrix;
         this.prix = prix;
-        this.nomBiere = nomBiere;
-    }
-
-    public Long getIdPrix() {
-        return idPrix;
-    }
-
-    public void setIdPrix(Long idPrix) {
-        this.idPrix = idPrix;
-    }
-
-    public String getPrix() {
-        return prix;
-    }
-
-    public void setPrix(String prix) {
-        this.prix = prix;
-    }
-
-    public String getNomBiere() {
-        return nomBiere;
-    }
-
-    public void setNomBiere(String nomBiere) {
         this.nomBiere = nomBiere;
     }
 }

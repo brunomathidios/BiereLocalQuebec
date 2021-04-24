@@ -1,12 +1,10 @@
 package com.ca.biere.local.quebec.gestion.ws.controleur;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-
-import com.ca.biere.local.quebec.commons.ws.entite.TypeBiere;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.ca.biere.local.quebec.commons.ws.entite.Biere;
+import com.ca.biere.local.quebec.commons.ws.pojo.Response;
+import com.ca.biere.local.quebec.commons.ws.utils.JsonUtils;
+import com.ca.biere.local.quebec.gestion.ws.filter.BiereFilter;
+import com.ca.biere.local.quebec.gestion.ws.service.BiereService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,19 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.ca.biere.local.quebec.commons.ws.entite.Biere;
-import com.ca.biere.local.quebec.commons.ws.pojo.Response;
-import com.ca.biere.local.quebec.commons.ws.utils.JsonUtils;
-import com.ca.biere.local.quebec.gestion.ws.filter.BiereFilter;
-import com.ca.biere.local.quebec.gestion.ws.service.BiereService;
 import org.springframework.web.multipart.MultipartFile;
 
-@CrossOrigin(
-	allowedHeaders = "*",
-	methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE},
-	origins="*"
-)
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "${application.domain}")
 public class BiereControleur {
