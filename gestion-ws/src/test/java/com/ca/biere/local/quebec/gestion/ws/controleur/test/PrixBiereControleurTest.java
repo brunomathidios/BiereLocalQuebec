@@ -4,7 +4,6 @@ import com.ca.biere.local.quebec.commons.ws.entite.PrixBiere;
 import com.ca.biere.local.quebec.commons.ws.enums.EnumConstraintViolation;
 import com.ca.biere.local.quebec.commons.ws.utils.JsonUtils;
 import com.ca.biere.local.quebec.gestion.ws.controleur.base.test.ControleurBaseTest;
-import com.ca.biere.local.quebec.gestion.ws.filter.BiereFilter;
 import com.ca.biere.local.quebec.gestion.ws.filter.PrixBiereFilter;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.hamcrest.Matchers;
@@ -22,8 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.math.BigDecimal;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -326,7 +323,7 @@ public class PrixBiereControleurTest extends ControleurBaseTest {
     }
 
     @Test
-    public void listerParPrixMédaillePage2() throws Exception {
+    public void listerParPrixMedaillePage2() throws Exception {
         PrixBiereFilter filter = new PrixBiereFilter();
         filter.setPrix("médaille");
 
